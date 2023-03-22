@@ -1,0 +1,23 @@
+--114.55.5.30
+su - postgres
+cd /data/datasynic/
+
+--线上到测试权限更新权限菜单等
+pg_dump -n cda_userpermission -T 'cda_dic_operationlog' -c  -F d -j 10 -h pgm-bp17mwqj6lsyfu88129330.pg.rds.aliyuncs.com -p 1921 -U dc -d dc -f cda_userpermission20220
+pg_restore -c -F d -j 10 -h 10.24.24.12 -p 3306 -U dc -d dc cda_userpermission20220321
+
+
+--测试权限到线上同步菜单接口配置
+-- 先备份测试环境数据
+-- pg_dump -t 'cda_userpermission.cda_svc_menu' -t 'cda_userpermission.cda_svc_panel' -t 'cda_userpermission.cda_svc_api' -t 'cda_userpermission.cda_rlt_menupanel' -t 'cda_userpermission.cda_rlt_panelapi' -F d -j 10 -a -h 10.24.24.12 -p 3306 -U dc -d dc -f cda_userpermission_test_20220212
+
+-- truncate table
+truncate table cda_userpermission.cda_svc_menu;
+truncate table cda_userpermission.cda_svc_panel;
+truncate table cda_userpermission.cda_svc_api;
+truncate table cda_userpermission.cda_rlt_menupanel;
+truncate table cda_userpermission.cda_rlt_panelapi;
+
+
+-- 更新测试权限数据到线上
+-- pg_restore -F d -j 10 -a -h pgm-bp17mwqj6lsyfu88129330.pg.rds.aliyuncs.com -p 1921  -U dc -d dc  cda_userpermission_test_20220212

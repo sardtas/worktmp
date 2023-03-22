@@ -1,0 +1,110 @@
+#使用-t table1 -t table2 -t table3 来导出多个表。
+#使用-j 来用多个线程导出 只有导出 -F d 目录形式的时候才能用j
+pg_dump -h 10.1.1.113 -U dc -F d -d dc -n bi_fdm -j 3 -f /l1t/113dc/bi_fdm
+pg_restore -h localhost -U postgres -d dc -j 6 -v /l1t/113dc/bi_fdm
+
+pg_dump -h 10.1.1.97 -U kettle -F t -d dc -n kettle > ./kettle_all.sql
+#pg_dump -h 114.55.5.30 -p 3306 -F t -U kettle -d dc -t kttle.* > ./kettle_all.sql
+
+#直接导一个表
+pg_dump -h 10.1.1.113 -U dc -d dc -a -t bi_fdm.d_zxxk_cl_channel | psql -h localhost -d dc -U dc
+
+pg_restore -h localhost -U dc -d dc -t bi_fdm.d_pape_usercreatedpaper -a -v /l1.5t/113dc/bi_fdm.dump
+
+pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -t -U dc bi_fdm.d_pape_queslist  -f /work/tmp/dpq
+
+
+pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_fdm -f /tmp/p88/bi_rt_fdm
+pg_restore -h localhost -U postgres -d dc -v /l1t/113dc/bi_rt_fdm
+
+pg_dump -h 10.1.1.113 -U dc -F d -d dc -n bi_rt_rpt -f /work/postgres/bi_rt_rpt.dump
+pg_restore -h localhost -U postgres -d dc -j 6 -v /work/postgres/bi_rt_rpt.dump
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_rt_srcapp -f /work/postgres/bi_rt_srcapp.dump
+pg_restore -h localhost -U postgres -d dc -j 6 -v /work/postgres/bi_rt_srcapp.dump
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_srcapp -f /l1.5t/113dc/bi_srcapp.dump
+pg_restore -h localhost -U postgres -d dc -j 6 -v /l1.5t/113dc/bi_srcapp.dump
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_adm -f /l1.5t/113dc/bi_adm.dump
+pg_restore -h localhost -U postgres -d dc -j 2 -v /l1.5t/113dc/bi_adm.dump
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_rpt -f /l1.5t/113dc/bi_rpt.dump
+pg_restore -h localhost -U postgres -d dc -j 6 -v /l1.5t/113dc/bi_rpt.dump
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_ldm -f /l1.5t/113dc/bi_ldm.dump
+pg_restore -h localhost -U postgres -d dc -j 6 -v /l1.5t/113dc/bi_ldm.dump
+
+pg_dump -h 10.1.1.113 -U dc -F d -d dc -n bi_fdm -j 3 -f /l1t/113dc/bi_fdm
+pg_restore -h localhost -U postgres -d dc -j 6 -v /l1t/113dc/bi_fdm
+
+
+pg_dump -h 10.1.1.82 -U dc_logs -F d -d dc_logs -t bi_srcapp.s_aliyun_log -f /home/postgres/bilogs
+pg_dump -h 10.1.1.82 -U dc_logs -F d -d dc_logs -t bi_srcapp.s_aliyun_log -f /work/
+
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -n bi_srcapp -f /l1.5t/113dc/bi_srcapp.dump
+pg_restore -h localhost -U postgres -d dc -v /l1.5t/113dc/bi_srcapp.dump
+
+
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -t bi_fdm.d_usr_t_user  -f /l1t/113dc/d_usr_t_user.dump
+pg_restore -h localhost -U postgres -d dc -t test1.tuser -v /l1t/113dc/d_usr_t_user.dump -a
+
+
+#打成tar文件，但是文件比-F c 生成的要大5倍
+pg_dump -h 10.1.1.113 -U dc -F t -d dc -n bi_rt_rpt -f /work/postgres/bi_rt_rpt.tar
+
+#-t 表  -n schema 
+压缩成文件，但使用的时候得解压缩，再放在psql中执行
+time pg_dump -h 10.1.1.113 -U dc -d dc -Z 7 -t bi_fdm.d_usr_t_user -f /tmp/user.z
+
+time pg_dump -h 10.1.1.82 -p 58000 -U dc -d dc -t  bi_adm.a_usr_user_info -f /work/data/auser.dump
+
+time pg_dump -h 10.1.1.82 -p 58000 -U dc -d dc -F c  -t  bi_adm.a_tmp_user_lslg -f /var/lib/postgresql/auser.dump
+pg_restore -h localhost -p 5432 -U dc -d dc  -v /var/lib/postgresql/auser.dump
+
+
+time pg_dump -h 10.1.1.82  -p 58000  -U dc -F d -d dc -n public -f /var/lib/postgresql/public.dump
+pg_restore -h localhost -U dc -d dc -j 6 -v /var/lib/postgresql/public.dump
+
+
+
+dc_xkwbi_123456
+pg_dump -h 10.1.1.113 -U dc -F c -d dc -f /l1.5t/113dc/bi_ldm.dump \
+
+pg_dump -h 10.1.1.90 -U bi_log -p 5432 -d dc_logs -F d -t bi_srcapp.s_sal_operate_log -f /work/tmp/log_sal.dump
+pg_dump -h 10.1.1.82 -U bi_log -p 5432 -d dc_logs -F d -t bi_fdm.d_bi_apilog -f /work/tmp/dump82
+pg_restore -h pc55 -p 15432 -U bi_log -d dc_logs  -v /work/tmp/dump82
+
+
+pg_restore -h pc55 -p 15432 -U bi_log -d dc_logs  -v /p66/tmp/
+
+pg_dump -h 114.55.5.30 -U kettle -p 60008 -F d -d dc_logs -n kettle -f /work/bak/kettle/20200424_1
+
+
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_fdm -f /tmp/p88/bi_rt_fdm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_rpt -f /tmp/p88/bi_rt_rpt
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_srcapp -f /tmp/p88/bi_rt_srcapp
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n public -f /tmp/p88/public
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_srcapp -f /tmp/p88/bi_srcapp
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_fdm -f /tmp/p88/bi_fdm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_ldm -f /tmp/p88/bi_ldm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_adm -f /tmp/p88/bi_adm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rpt -f /tmp/p88/bi_rpt
+
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_fdm -f /tmp/p88/bi_rt_fdm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_fdm -f /tmp/p88/bi_rt_fdm
+./pg_dump -h 10.1.1.82 -U dc -p 58000 -F d -d dc -n bi_rt_fdm -f /tmp/p88/bi_rt_fdm
+
+
+
+
+
+
+
+
+
+
+不生成文件的
+time pg_dump -h 10.1.1.113 -U dc -d dc -n bi_fdm  | psql -U dc -h localhost -d dc
+

@@ -1,0 +1,60 @@
+--更新一下源
+pacman -Sy 
+使用reflector来获取速度最快的6个镜像，并将地址保存至/etc/pacman.d/mirrorlist
+
+reflector -c China -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+
+#虚拟机安装注意用efi，用bios启动不了
+
+
+1.检查硬盘
+lsblk
+建分区 最少建两个，启动需要用一个boot分区 boot分区的格式要efi格式
+cfdisk /dev/sda
+mkfs.ext4 /dev/sda2
+#sda1别挂/下
+mount /dev/sda1 /mnt
+#sda1挂/mnt/boot下 要用vfat
+mkfs.vfat /dev/sda2
+mount /dev/sda2 /mnt/boot
+
+安装
+pacstrap /mnt base linux linux-firmware nano vim grub efibootmgr
+生成fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+切到安装好的linux
+arch-chroot /mnt
+时区
+timedatectl set-timezone Asia/Shanghai
+hwclock --systohc
+nano /etc/locale.gen
+nano /etc/locale.conf 
+  LANG=en_US.UTF-8
+nano /etc/hostname
+
+
+nano /etc/default/grub
+在里面找一条空行输入
+GRUB_DISABLE_OS_PROBER=false
+
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+grub-mkconfig -o /boot/grub/grub.cfg
+
+退出，重启
+exit
+umount -a
+reboot
+
+----------------启动不了
+
+
+
+
+
+
+
+
+
+
+
+
