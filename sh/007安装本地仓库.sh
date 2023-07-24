@@ -31,7 +31,6 @@ createrepo /work/soft/yumrepo/centos7
 
 
 
-
 createrepo --update /work/soft/yumrepo/cm5
 createrepo /work/soft/yumrepo/cm5
 
