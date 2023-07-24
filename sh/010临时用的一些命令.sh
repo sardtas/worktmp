@@ -176,8 +176,6 @@ docker run --name dp10_1 -e POSTGRES_PASSWORD=uat123 -p 15432:5432 -d postgres:1
 
 
 
-
-
 sqoop import   \
 --connect jdbc:postgresql://10.1.1.90:5432/dc_logs --username bi_log --password bi_log123456 -m 1 \
 --table s_aliyun_log --fields-terminated-by '\001' --append --direct \
